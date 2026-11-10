@@ -1,0 +1,52 @@
+Para iniciantes, o maior desafio é entender onde colocar cada pedaço de código sem se perder em padrões complexos de arquitetura corporativa (como Clean Architecture ou DDD).
+A melhor abordagem é organizar o projeto por Funcionalidades (Screaming Architecture). Em vez de agrupar por termos técnicos (todas as rotas juntas, todos os modelos juntos), agrupamos por entidade do CRUD (ex: usuarios, produtos). Isso torna o projeto extremamente intuitivo, pois o aluno encontra tudo o que precisa sobre "produtos" dentro de uma única pasta, exatamente como grandes aplicações modulares fazem hoje.
+Aqui está a estrutura ideal para 3 CRUDs (exemplo: Usuários, Produtos e Pedidos):
+text
+meu_projeto_api/
+├── .gitignore
+├── README.md
+├── requirements.txt
+├── src/
+│   ├── __init__.py
+│   ├── main.py              # Ponto de entrada (inicializa o app/banco)
+│   │
+│   ├── usuarios/            # CRUD 1: Usuários
+│   │   ├── __init__.py
+│   │   ├── rotas.py         # Endpoints (GET, POST, PUT, DELETE)
+│   │   ├── modelos.py       # Estrutura no banco de dados
+│   │   └── servicos.py      # Lógica de negócio e validações
+│   │
+│   ├── produtos/            # CRUD 2: Produtos
+│   │   ├── __init__.py
+│   │   ├── rotas.py
+│   │   ├── modelos.py
+│   │   └── servicos.py
+│   │
+│   └── pedidos/             # CRUD 3: Pedidos
+│       ├── __init__.py
+│       ├── rotas.py
+│       ├── modelos.py
+│       └── servicos.py
+│
+└── tests/                   # Pasta de testes (mostra que código real tem teste)
+    ├── test_usuarios.py
+    ├── test_produtos.py
+    └── test_pedidos.py
+Use code with caution.
+
+Por que essa estrutura funciona muito bem para iniciantes?
+
+• Divisão de Responsabilidades Clara:
+	• rotas.py: Cuida apenas de receber a requisição da web e responder (HTTP status codes, parâmetros).
+	• modelos.py: Cuida de como os dados são salvos (seja com SQLAlchemy, SQL puro ou um dicionário na memória).
+	• servicos.py: Onde a mágica acontece. Se um produto não pode ter preço negativo, essa regra fica aqui.
+• Fácil de clonar e repetir: Uma vez que o aluno entende como o CRUD de usuarios funciona, ele consegue replicar a mesma lógica mental para criar o de produtos e pedidos.
+• Escalável e Real: Grandes empresas que usam frameworks como Django ou FastAPI organizam seus códigos em "apps" ou "módulos" exatamente assim. Se o projeto crescer para 20 CRUDs, a raiz não vira uma bagunça.
+
+💡 Dicas de Ouro para a Aula/Tutorial
+
+1. Comece com persistência em memória: No primeiro CRUD, use uma lista [] ou dicionário {} global em servicos.py para salvar os dados. Isso evita que o iniciante trave em conceitos de banco de dados (SQL, migrations) antes de entender o fluxo do CRUD. Introduza o banco de dados real apenas no segundo ou terceiro CRUD.
+2. Use o main.py como orquestrador: Mostre que o main.py apenas importa e junta as rotas de cada pasta (usando Blueprints no Flask ou APIRouter no FastAPI).
+Para que eu possa detalhar ainda mais os arquivos de exemplo, você poderia me dizer:
+• Qual framework web você pretende usar com eles? (Ex: FastAPI, Flask, Django, ou Python Puro)
+• Qual será o mecanismo de banco de dados? (Ex: Lista em memória, SQLite, SQLAlchemy)
